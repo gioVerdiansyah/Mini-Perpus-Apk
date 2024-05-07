@@ -12,10 +12,13 @@ class ApiRoute{
   // GET
   static final Uri getBookRoute = Uri.parse("${Env.API_URL}get/book");
   static final Uri getCustomerRoute = Uri.parse("${Env.API_URL}get/customer");
+  static final Uri getRentRoute = Uri.parse("${Env.API_URL}get/rent");
+  static final Uri getRentDataNeededRoute = Uri.parse("${Env.API_URL}get/rent/data");
 
   // STORE
   static final Uri storeBookRoute = Uri.parse("${Env.API_URL}store/book");
   static final Uri storeCustomerRoute = Uri.parse("${Env.API_URL}store/customer");
+  static final Uri storeRentRoute = Uri.parse("${Env.API_URL}store/rent");
 
   // SHOW
   static final Uri showBookRoute = Uri.parse("${Env.API_URL}show/book/");
