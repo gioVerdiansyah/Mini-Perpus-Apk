@@ -2,12 +2,14 @@ import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:mini_perpus_up/env.dart';
 import 'package:mini_perpus_up/models/BookModel.dart';
 import 'package:mini_perpus_up/pages/admin/create/BookCreatePage.dart';
 import 'package:mini_perpus_up/pages/admin/edit/BookEditPage.dart';
 import 'package:mini_perpus_up/pages/components/AppBarComponent.dart';
 import 'package:mini_perpus_up/pages/components/PaginationComponent.dart';
 import 'package:mini_perpus_up/routes/AppRoute.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AdminBukuPage extends StatefulWidget {
   AdminBukuPage({super.key});
@@ -39,22 +41,41 @@ class _AdminBukuView extends State<AdminBukuPage> {
 
             return Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        // Navigator.of(context, rootNavigator: true).pushNamed("/book/create");
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => BookCreatePage(refreshState:
-                        passingDownEvent),));
-                      },
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                          backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(43, 255, 149, 0.6)),
-                          foregroundColor: MaterialStateProperty.all(Colors.white),
-                      ),
-                      child: const Text(
-                        "Tambah Buku",
-                      )),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            // Navigator.of(context, rootNavigator: true).pushNamed("/book/create");
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => BookCreatePage(refreshState:
+                            passingDownEvent),));
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                              backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(43, 255, 149, 0.6)),
+                              foregroundColor: MaterialStateProperty.all(Colors.white),
+                          ),
+                          child: const Text(
+                            "Tambah Buku",
+                          )),
+                    ),Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            launchUrl(Uri.parse("${Env.APP_URL}print/book"));
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                              backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(248, 255, 54, 0.6)),
+                              foregroundColor: MaterialStateProperty.all(Colors.white),
+                          ),
+                          child: const Text(
+                            "Cetak semua Buku",
+                          )),
+                    ),
+                  ],
                 ),
                 ((data['data'] == null) || data['data'].isEmpty)
                     ? const Center(

@@ -6,9 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:mini_perpus_up/env.dart';
 import 'package:mini_perpus_up/models/RentModel.dart';
 import 'package:mini_perpus_up/pages/components/AppBarComponent.dart';
 import 'package:mini_perpus_up/routes/ApiRoute.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RentCreatePage extends StatefulWidget {
   RentCreatePage({super.key, required this.refreshState, required this.data});
@@ -260,13 +262,16 @@ class _RentCreateView extends State<RentCreatePage> {
                                           context: context,
                                           barrierDismissible: false,
                                           artDialogArgs: ArtDialogArgs(
-                                              title: "Berhasil menambah pelanggan baru",
-                                              text: response['meta']['message'],
+                                              title: "Berhasil menambah data sewa",
+                                              text: "Apakah Anda ingin print?",
                                               type: ArtSweetAlertType.success,
-                                              onConfirm: () => {
-                                                    Navigator.pop(context),
-                                                    widget.refreshState(ApiRoute.getRentRoute)
-                                                  }));
+                                              confirmButtonText: "Ya",
+                                              cancelButtonText: "Tidak",
+                                              showCancelBtn: true,
+                                              onConfirm: () =>
+                                                  {launchUrl(Uri.parse("${Env.APP_URL}print/rent/${response['data']}"))},
+                                              onCancel: () =>
+                                                  {Navigator.pop(context), widget.refreshState(ApiRoute.getRentRoute)}));
                                     } else {
                                       ArtSweetAlert.show(
                                           context: context,
@@ -292,7 +297,7 @@ class _RentCreateView extends State<RentCreatePage> {
                         ),
                         if (denda != null)
                           Text(
-                              "Denda adalah: ${NumberFormat.currency(locale: 'id_ID', symbol: 'Rp').format(denda).toString()}")
+                              "Biaya sewa adalah: ${NumberFormat.currency(locale: 'id_ID', symbol: 'Rp').format(denda).toString()}")
                       ],
                     ),
                   ),

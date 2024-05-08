@@ -1,10 +1,12 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_perpus_up/env.dart';
 import 'package:mini_perpus_up/models/CustomerModel.dart';
 import 'package:mini_perpus_up/pages/admin/create/CustomerCreatePage.dart';
 import 'package:mini_perpus_up/pages/admin/edit/CustomerEditPage.dart';
 import 'package:mini_perpus_up/pages/components/PaginationComponent.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AdminPelangganPage extends StatefulWidget{
   AdminPelangganPage({super.key});
@@ -36,22 +38,41 @@ class _AdminPelangganView extends State<AdminPelangganPage>{
 
             return Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        // Navigator.of(context, rootNavigator: true).pushNamed("/Customer/create");
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerCreatePage(refreshState:
-                        passingDownEvent),));
-                      },
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                        backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(43, 255, 149, 0.6)),
-                        foregroundColor: MaterialStateProperty.all(Colors.white),
-                      ),
-                      child: const Text(
-                        "Tambah Pelanggan",
-                      )),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            // Navigator.of(context, rootNavigator: true).pushNamed("/Customer/create");
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerCreatePage(refreshState:
+                            passingDownEvent),));
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                            backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(43, 255, 149, 0.6)),
+                            foregroundColor: MaterialStateProperty.all(Colors.white),
+                          ),
+                          child: const Text(
+                            "Tambah Pelanggan",
+                          )),
+                    ),Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            launchUrl(Uri.parse("${Env.APP_URL}print/customer"));
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                            backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(248, 255, 54, 0.6)),
+                            foregroundColor: MaterialStateProperty.all(Colors.white),
+                          ),
+                          child: const Text(
+                            "Cetak data Pelanggan",
+                          )),
+                    ),
+                  ],
                 ),
                 ((data['data'] == null) || data['data'].isEmpty)
                     ? const Center(
