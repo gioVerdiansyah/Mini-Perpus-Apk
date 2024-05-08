@@ -214,7 +214,9 @@ class _LoginView extends State<LoginPage> {
                       FadeInUp(
                           duration: const Duration(milliseconds: 2000),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, AppRoute.userPageRoute);
+                            },
                             child: const Text("User Mode",
                                 style: TextStyle(color: Color.fromRGBO(143, 148, 251, 1))),
                           )),

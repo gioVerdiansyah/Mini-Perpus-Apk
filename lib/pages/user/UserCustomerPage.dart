@@ -5,29 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mini_perpus_up/models/CustomerModel.dart';
+import 'package:mini_perpus_up/pages/auth/LoginPage.dart';
 import 'package:mini_perpus_up/pages/components/AppBarComponent.dart';
-import 'package:mini_perpus_up/routes/ApiRoute.dart';
+import 'package:mini_perpus_up/routes/AppRoute.dart';
 
-class CustomerCreatePage extends StatefulWidget {
-  CustomerCreatePage({super.key, required this.refreshState});
-  static const String routeName = '/book/create';
+class UserCustomerPage extends StatefulWidget {
+  UserCustomerPage({super.key});
+
   final _formKey = GlobalKey<FormBuilderState>();
-  final Function refreshState;
 
   final TextEditingController name = TextEditingController();
   final TextEditingController address = TextEditingController();
 
   @override
-  State<CustomerCreatePage> createState() => _CustomerCreateView();
+  State<UserCustomerPage> createState() => _UserCustomerView();
 }
 
-class _CustomerCreateView extends State<CustomerCreatePage> {
+class _UserCustomerView extends State<UserCustomerPage> {
   late String gender;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarComponent(),
       body: Container(
           child: FormBuilder(
         key: widget._formKey,
@@ -40,7 +39,7 @@ class _CustomerCreateView extends State<CustomerCreatePage> {
                 padding: EdgeInsets.only(top: 10),
                 child: Center(
                   child: Text(
-                    "Tambah pelanggan baru",
+                    "Tambah data pelanggan Anda",
                     style: TextStyle(fontSize: 25),
                   ),
                 ),
@@ -125,13 +124,14 @@ class _CustomerCreateView extends State<CustomerCreatePage> {
                                   if (response['meta']['success']) {
                                     ArtSweetAlert.show(
                                         context: context,
-                                        barrierDismissible: false,
                                         artDialogArgs: ArtDialogArgs(
-                                            title: "Berhasil menambah pelanggan baru",
+                                            title: "Berhasil data pelanggan",
                                             text: response['meta']['message'],
                                             type: ArtSweetAlertType.success,
-                                            onConfirm: () =>
-                                            {Navigator.pop(context), widget.refreshState(ApiRoute.getCustomerRoute)}));
+                                            onDispose: () =>
+                                            {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),))
+                                            }));
                                   } else {
                                     ArtSweetAlert.show(
                                         context: context,

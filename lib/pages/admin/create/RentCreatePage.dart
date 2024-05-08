@@ -215,24 +215,6 @@ class _RentCreateView extends State<RentCreatePage> {
                                 onPressed: () async {
                                   if (widget._formKey.currentState?.saveAndValidate() ?? false) {
                                     calcPrice();
-                                    print({
-                                      "pelanggan": no_pelanggan,
-                                      "buku": kode_buku,
-                                      "tgl1": DateFormat("yyyy-MM-dd")
-                                          .parse(DateFormat("M/d/yyyy")
-                                              .parse(tglPinjamdanPengembalian.text.split(' -'
-                                                  ' ')[0])
-                                              .toString())
-                                          .toString(),
-                                      'tgl2': DateFormat("yyyy-MM-dd")
-                                          .parse(DateFormat("M/d/yyyy")
-                                              .parse(tglPinjamdanPengembalian.text.split(' -'
-                                                  ' ')[1])
-                                              .toString())
-                                          .toString(),
-                                      "jumlahBuku": int.parse(jumlahBuku.text),
-                                      "denda": denda!
-                                    });
                                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                       content: Text("Processing "
                                           "Data"),

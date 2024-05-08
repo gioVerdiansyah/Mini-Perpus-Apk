@@ -4,6 +4,7 @@ import 'package:mini_perpus_up/pages/admin/AdminBase.dart';
 import 'package:mini_perpus_up/pages/admin/create/BookCreatePage.dart';
 import 'package:mini_perpus_up/pages/admin/edit/BookEditPage.dart';
 import 'package:mini_perpus_up/pages/auth/LoginPage.dart';
+import 'package:mini_perpus_up/pages/user/UserBase.dart';
 
 class AppRoute{
   static String INITIAL = hasLogin();
@@ -21,9 +22,11 @@ class AppRoute{
   // Routes Name
   static const String loginRoute = LoginPage.routeName;
   static const String adminHomeRoute = AdminBase.routeName;
+  static const String userPageRoute = UserBase.routeName;
 
   static Map<String, WidgetBuilder> routes = {
     loginRoute: (context) => LoginPage(),
     adminHomeRoute: (context) => AdminBase(),
+    userPageRoute: (context) => UserBase(),
   };
 }

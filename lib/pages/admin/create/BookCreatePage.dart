@@ -101,34 +101,37 @@ class _BookCreateView extends State<BookCreatePage> {
                           child: IntrinsicWidth(
                             child: ElevatedButton(
                               onPressed: () async {
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                  content: Text("Processing "
-                                      "Data"),
-                                  backgroundColor: Color.fromRGBO(143, 148, 251, 1),
-                                ));
+                                if(widget._formKey.currentState?.saveAndValidate() ?? false) {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                    content: Text("Processing "
+                                        "Data"),
+                                    backgroundColor: Color.fromRGBO(143, 148, 251, 1),
+                                  ));
 
-                                var response = await BookModel.storeBook(
-                                    widget.title.text, widget.category.text, widget.publisher.text);
+                                  var response = await BookModel.storeBook(
+                                      widget.title.text, widget.category.text, widget.publisher.text);
 
-                                if (response['meta']['success']) {
-                                  ArtSweetAlert.show(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      artDialogArgs: ArtDialogArgs(
-                                          title: "Berhasil menyimpan buku",
-                                          text: response['meta']['message'],
-                                          type: ArtSweetAlertType.success,
-                                          onConfirm: () => {
-                                            Navigator.pop(context),
-                                            widget.refreshState(ApiRoute.getCustomerRoute)
-                                          }));
-                                } else {
-                                  ArtSweetAlert.show(
-                                      context: context,
-                                      artDialogArgs: ArtDialogArgs(
+                                  if (response['meta']['success']) {
+                                    ArtSweetAlert.show(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        artDialogArgs: ArtDialogArgs(
+                                            title: "Berhasil menyimpan buku",
+                                            text: response['meta']['message'],
+                                            type: ArtSweetAlertType.success,
+                                            onConfirm: () =>
+                                            {
+                                              Navigator.pop(context),
+                                              widget.refreshState(ApiRoute.getCustomerRoute)
+                                            }));
+                                  } else {
+                                    ArtSweetAlert.show(
+                                        context: context,
+                                        artDialogArgs: ArtDialogArgs(
                                           title: response['meta']['message'],
                                           text: response['data'] ?? "Ada kesalahan server",
                                           type: ArtSweetAlertType.danger,));
+                                  }
                                 }
                               },
                               style: ButtonStyle(
