@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_perpus_up/pages/admin/AdminHomePage.dart';
-import 'package:mini_perpus_up/pages/components/AppBarComponent.dart';
-import 'package:mini_perpus_up/pages/lib/CurvedNavigationBar.dart';
-import 'package:mini_perpus_up/pages/user/UserBookListPage.dart';
-import 'package:mini_perpus_up/pages/user/UserCustomerPage.dart';
+import 'package:aplikasi_perpustakaan/pages/admin/AdminHomePage.dart';
+import 'package:aplikasi_perpustakaan/pages/components/AppBarComponent.dart';
+import 'package:aplikasi_perpustakaan/pages/lib/CurvedNavigationBar.dart';
+import 'package:aplikasi_perpustakaan/pages/user/UserBookListPage.dart';
+import 'package:aplikasi_perpustakaan/pages/user/UserCustomerPage.dart';
 
 class UserBase extends StatefulWidget {
   UserBase({super.key});

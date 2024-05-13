@@ -1,16 +1,23 @@
+import 'package:intl/intl.dart';
+import 'package:aplikasi_perpustakaan/routes/ApiRoute.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:mini_perpus_up/env.dart';
-import 'package:mini_perpus_up/models/BookModel.dart';
-import 'package:mini_perpus_up/pages/admin/create/BookCreatePage.dart';
-import 'package:mini_perpus_up/pages/admin/edit/BookEditPage.dart';
-import 'package:mini_perpus_up/pages/components/PaginationComponent.dart';
+import 'package:aplikasi_perpustakaan/env.dart';
+import 'package:aplikasi_perpustakaan/models/BookModel.dart';
+import 'package:aplikasi_perpustakaan/pages/admin/create/BookCreatePage.dart';
+import 'package:aplikasi_perpustakaan/pages/admin/edit/BookEditPage.dart';
+import 'package:aplikasi_perpustakaan/pages/components/PaginationComponent.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdminBukuPage extends StatefulWidget {
   AdminBukuPage({super.key});
+
+  final _formKey = GlobalKey<FormBuilderState>();
+  final TextEditingController query = TextEditingController();
 
   @override
   State<AdminBukuPage> createState() => _AdminBukuView();
@@ -18,11 +25,12 @@ class AdminBukuPage extends StatefulWidget {
 
 class _AdminBukuView extends State<AdminBukuPage> {
   Uri? changeUrl;
+  String? value;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: BookModel.getBook(changeUrl),
+        future: BookModel.getBook(changeUrl, value),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -39,41 +47,81 @@ class _AdminBukuView extends State<AdminBukuPage> {
 
             return Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            // Navigator.of(context, rootNavigator: true).pushNamed("/book/create");
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => BookCreatePage(refreshState:
-                            passingDownEvent),));
-                          },
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                              backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(43, 255, 149, 0.6)),
-                              foregroundColor: MaterialStateProperty.all(Colors.white),
-                          ),
-                          child: const Text(
-                            "Tambah Buku",
-                          )),
-                    ),Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            launchUrl(Uri.parse("${Env.APP_URL}print/book"));
-                          },
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                              backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(248, 255, 54, 0.6)),
-                              foregroundColor: MaterialStateProperty.all(Colors.white),
-                          ),
-                          child: const Text(
-                            "Cetak semua Buku",
-                          )),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Expanded(
+                    flex: 100,
+                    child: Column(
+                      children: [
+                        FormBuilder(
+                            key: widget._formKey,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.45,
+                                  height: 20,
+                                  decoration: const BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Color.fromRGBO(143, 148, 251, 1)))),
+                                  child: FormBuilderTextField(
+                                    name: "book",
+                                    controller: widget.query,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Search Book",
+                                        hintStyle: TextStyle(color: Colors.grey[700])),
+                                    // validator: FormBuilderValidators.compose([FormBuilderValidators.required()]),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      setState(() {
+                                        changeUrl = ApiRoute.getBookRoute;
+                                        value = widget.query.text;
+                                      });
+                                    },
+                                    child: Icon(Icons.search))
+                              ],
+                            )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                              child: ElevatedButton(
+                                  onPressed: () async {
+                                    // Navigator.of(context, rootNavigator: true).pushNamed("/book/create");
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => BookCreatePage(refreshState:
+                                    passingDownEvent),));
+                                  },
+                                  style: ButtonStyle(
+                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                                      backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(43, 255, 149, 0.6)),
+                                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                                  ),
+                                  child: const Text(
+                                    "Tambah Buku",
+                                  )),
+                            ),Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                              child: ElevatedButton(
+                                  onPressed: () async {
+                                    launchUrl(Uri.parse("${Env.APP_URL}print/book"));
+                                  },
+                                  style: ButtonStyle(
+                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                                      backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(248, 255, 54, 0.6)),
+                                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                                  ),
+                                  child: const Text(
+                                    "Cetak semua Buku",
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
                 ((data['data'] == null) || data['data'].isEmpty)
                     ? const Center(
@@ -81,6 +129,7 @@ class _AdminBukuView extends State<AdminBukuPage> {
                       )
                     : Container(
                         child: Expanded(
+                          flex: 500,
                             child: ListView(
                           children: [
                             ListView.builder(
@@ -106,7 +155,8 @@ class _AdminBukuView extends State<AdminBukuPage> {
                                               children: [
                                                 Text("Judul: ${book['title']}"),
                                                 Text("Category: ${book['category'] ?? '-'}"),
-                                                Text("Penerbit: ${book['publisher'] ?? '-'}")
+                                                Text("Penerbit: ${book['publisher'] ?? '-'}"),
+                                                Text("Dibuat: ${DateFormat("dd/MM/yyyy").format(DateTime.parse(book['created_at']))}")
                                               ],
                                             ),
                                           ],

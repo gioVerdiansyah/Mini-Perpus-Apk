@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_perpus_up/pages/admin/AdminBookPage.dart';
-import 'package:mini_perpus_up/pages/admin/AdminHomePage.dart';
-import 'package:mini_perpus_up/pages/admin/AdminCustomerPage.dart';
-import 'package:mini_perpus_up/pages/admin/AdminRentPage.dart';
-import 'package:mini_perpus_up/pages/components/AppBarComponent.dart';
-import 'package:mini_perpus_up/pages/lib/CurvedNavigationBar.dart';
+import 'package:aplikasi_perpustakaan/pages/admin/AdminBookPage.dart';
+import 'package:aplikasi_perpustakaan/pages/admin/AdminHomePage.dart';
+import 'package:aplikasi_perpustakaan/pages/admin/AdminCustomerPage.dart';
+import 'package:aplikasi_perpustakaan/pages/admin/AdminRentPage.dart';
+import 'package:aplikasi_perpustakaan/pages/components/AppBarComponent.dart';
+import 'package:aplikasi_perpustakaan/pages/lib/CurvedNavigationBar.dart';
 
 class AdminBase extends StatefulWidget {
   AdminBase({super.key});

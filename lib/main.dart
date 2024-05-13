@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mini_perpus_up/routes/AppRoute.dart';
+import 'package:aplikasi_perpustakaan/routes/AppRoute.dart';
 import 'package:get_storage/get_storage.dart';
 
 void main() async {
@@ -14,6 +14,7 @@ class MainApp extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Mini Perpus",
       initialRoute: AppRoute.INITIAL,
       routes: AppRoute.routes,

@@ -1,13 +1,14 @@
 import 'dart:convert';
 
-import 'package:mini_perpus_up/routes/ApiRoute.dart';
-import 'package:mini_perpus_up/utils/HandleResponse.dart';
+import 'package:aplikasi_perpustakaan/routes/ApiRoute.dart';
+import 'package:aplikasi_perpustakaan/utils/HandleResponse.dart';
 import 'package:http/http.dart' as http;
 
 class CustomerModel {
-  static Future getCustomer(Uri? paginateUrl) async {
+  static Future getCustomer(Uri? paginateUrl, String? value ) async {
     try {
       Uri url = paginateUrl ?? ApiRoute.getCustomerRoute;
+      if(value != null) url = Uri.parse("${url}?query=${value}");
       var response = await http.get(url, headers: {"Content-Type": "application/json", 'x-api-key': ApiRoute.API_KEY});
 
       var data = json.decode(response.body);

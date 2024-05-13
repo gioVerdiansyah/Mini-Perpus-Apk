@@ -1,4 +1,4 @@
-import 'package:mini_perpus_up/env.dart';
+import 'package:aplikasi_perpustakaan/env.dart';
 
 class ApiRoute{
   static final String API_KEY = Env.API_KEY;
@@ -31,4 +31,5 @@ class ApiRoute{
   // DELETE
   static final Uri deleteBookRoute = Uri.parse("${Env.API_URL}destroy/book");
   static final Uri deleteCustomerRoute = Uri.parse("${Env.API_URL}destroy/customer");
+  static final Uri deleteRentRoute = Uri.parse("${Env.API_URL}destroy/rent");
 }

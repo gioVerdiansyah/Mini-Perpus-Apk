@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mini_perpus_up/pages/admin/AdminBase.dart';
-import 'package:mini_perpus_up/pages/admin/create/BookCreatePage.dart';
-import 'package:mini_perpus_up/pages/admin/edit/BookEditPage.dart';
-import 'package:mini_perpus_up/pages/auth/LoginPage.dart';
-import 'package:mini_perpus_up/pages/user/UserBase.dart';
+import 'package:aplikasi_perpustakaan/pages/admin/AdminBase.dart';
+import 'package:aplikasi_perpustakaan/pages/auth/LoginPage.dart';
+import 'package:aplikasi_perpustakaan/pages/user/UserBase.dart';
 
 class AppRoute{
   static String INITIAL = hasLogin();

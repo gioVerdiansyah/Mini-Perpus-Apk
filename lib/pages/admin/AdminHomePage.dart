@@ -1,7 +1,10 @@
+import 'package:aplikasi_perpustakaan/models/AuthenticationModel.dart';
+import 'package:aplikasi_perpustakaan/pages/auth/LoginPage.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_perpus_up/pages/lib/CurvedNavigationBar.dart';
+import 'package:aplikasi_perpustakaan/pages/lib/CurvedNavigationBar.dart';
+import 'package:get_storage/get_storage.dart';
 
 class AdminHomePage extends StatelessWidget {
   final CurvedNavigationBarState? navState;
@@ -24,7 +27,7 @@ class AdminHomePage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Column(
@@ -49,6 +52,12 @@ class AdminHomePage extends StatelessWidget {
                               "Halaman Pelanggan",
                             ),
                           )),
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 15),
+                        color: Colors.black,
+                        height: 2,
+                        width: double.infinity,
+                      )
                     ],
                   ),
                   Column(
@@ -73,6 +82,12 @@ class AdminHomePage extends StatelessWidget {
                               "Halaman Buku",
                             ),
                           )),
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 15),
+                        color: Colors.black,
+                        height: 2,
+                        width: double.infinity,
+                      )
                     ],
                   ),
                   Column(
@@ -99,8 +114,46 @@ class AdminHomePage extends StatelessWidget {
                               "Halaman Sewa",
                             ),
                           )),
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 15),
+                        color: Colors.black,
+                        height: 2,
+                        width: double.infinity,
+                      )
                     ],
                   ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Processing "
+                              "Data"),
+                          backgroundColor: Color.fromRGBO(143, 148, 251, 1),
+                        ));
+
+                        var response = await AuthenticationModel.logout();
+
+                        if(response['meta']['success']){
+                          GetStorage().erase();
+                          Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(LoginPage.routeName, (route) => false);
+                        }else{
+                          ArtSweetAlert.show(context: context, artDialogArgs: ArtDialogArgs(
+                              type: ArtSweetAlertType.danger,
+                              title: "Ups, Something wrong!",
+                              text: response['meta']['message']
+                          ));
+                        }
+                      },
+                    style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(143, 148, 251, 1)),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                      ))
+                    ),
+                      child: const Text(
+                        "LogOut",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                  )
                 ],
               ),
             )

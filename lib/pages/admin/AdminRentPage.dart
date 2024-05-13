@@ -1,14 +1,19 @@
+import 'package:aplikasi_perpustakaan/routes/ApiRoute.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_perpus_up/env.dart';
-import 'package:mini_perpus_up/models/RentModel.dart';
-import 'package:mini_perpus_up/pages/admin/create/RentCreatePage.dart';
-import 'package:mini_perpus_up/pages/components/PaginationComponent.dart';
+import 'package:aplikasi_perpustakaan/env.dart';
+import 'package:aplikasi_perpustakaan/models/RentModel.dart';
+import 'package:aplikasi_perpustakaan/pages/admin/create/RentCreatePage.dart';
+import 'package:aplikasi_perpustakaan/pages/components/PaginationComponent.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdminSewaPage extends StatefulWidget {
   AdminSewaPage({super.key});
+
+  final _formKey = GlobalKey<FormBuilderState>();
+  final TextEditingController query = TextEditingController();
 
   @override
   State<AdminSewaPage> createState() => _AdminSewaView();
@@ -16,11 +21,12 @@ class AdminSewaPage extends StatefulWidget {
 
 class _AdminSewaView extends State<AdminSewaPage> {
   Uri? changeUrl;
+  String? value;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: RentModel.getRent(changeUrl),
+        future: RentModel.getRent(changeUrl, value),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -38,6 +44,39 @@ class _AdminSewaView extends State<AdminSewaPage> {
 
             return Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: FormBuilder(
+                      key: widget._formKey,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            height: 20,
+                            decoration: const BoxDecoration(
+                                border: Border(bottom: BorderSide(color: Color.fromRGBO(143, 148, 251, 1)))),
+                            child: FormBuilderTextField(
+                              name: "rent",
+                              controller: widget.query,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Search Rent",
+                                  hintStyle: TextStyle(color: Colors.grey[700])),
+                              // validator: FormBuilderValidators.compose([FormBuilderValidators.required()]),
+                            ),
+                          ),
+                          ElevatedButton(
+                              onPressed: () async {
+                                setState(() {
+                                  changeUrl = ApiRoute.getRentRoute;
+                                  value = widget.query.text;
+                                });
+                              },
+                              child: Icon(Icons.search))
+                        ],
+                      )),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: ElevatedButton(
@@ -90,12 +129,12 @@ class _AdminSewaView extends State<AdminSewaPage> {
                                             Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text("Pelanggan: ${rent['customer']['name']}"),
-                                                Text("Buku: ${rent['book']['title'] ?? '-'}"),
-                                                Text("Jumlah: ${rent['total'] ?? '-'}"),
-                                                Text("Tgl Sewa: ${rent['rental_date'] ?? '-'}"),
-                                                Text("Tgl Pengembalian: ${rent['return_date'] ?? '-'}"),
-                                                Text("Pajak: ${rent['tax'] ?? '-'}"),
+                                                Text("Pelanggan: ${rent['customer']?['name']}"),
+                                                Text("Buku: ${rent['book']?['title'] ?? '-'}"),
+                                                Text("Jumlah: ${rent?['total'] ?? '-'}"),
+                                                Text("Tgl Sewa: ${rent?['rental_date'] ?? '-'}"),
+                                                Text("Tgl Pengembalian: ${rent?['return_date'] ?? '-'}"),
+                                                Text("Pajak: ${rent?['tax'] ?? '-'}"),
                                               ],
                                             ),
                                           ],

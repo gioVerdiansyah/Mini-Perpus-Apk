@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mini_perpus_up/models/CustomerModel.dart';
-import 'package:mini_perpus_up/pages/components/AppBarComponent.dart';
-import 'package:mini_perpus_up/routes/ApiRoute.dart';
+import 'package:aplikasi_perpustakaan/models/CustomerModel.dart';
+import 'package:aplikasi_perpustakaan/pages/components/AppBarComponent.dart';
+import 'package:aplikasi_perpustakaan/routes/ApiRoute.dart';
 
 class CustomerEditPage extends StatefulWidget {
   CustomerEditPage({super.key, required this.refreshState, required this.customerID});

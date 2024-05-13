@@ -6,10 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mini_perpus_up/env.dart';
-import 'package:mini_perpus_up/models/RentModel.dart';
-import 'package:mini_perpus_up/pages/components/AppBarComponent.dart';
-import 'package:mini_perpus_up/routes/ApiRoute.dart';
+import 'package:aplikasi_perpustakaan/env.dart';
+import 'package:aplikasi_perpustakaan/models/RentModel.dart';
+import 'package:aplikasi_perpustakaan/pages/components/AppBarComponent.dart';
+import 'package:aplikasi_perpustakaan/routes/ApiRoute.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RentCreatePage extends StatefulWidget {
@@ -242,7 +242,6 @@ class _RentCreateView extends State<RentCreatePage> {
                                     if (response['meta']['success']) {
                                       ArtSweetAlert.show(
                                           context: context,
-                                          barrierDismissible: false,
                                           artDialogArgs: ArtDialogArgs(
                                               title: "Berhasil menambah data sewa",
                                               text: "Apakah Anda ingin print?",

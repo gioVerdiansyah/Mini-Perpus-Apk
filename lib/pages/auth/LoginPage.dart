@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mini_perpus_up/models/AuthenticationModel.dart';
-import 'package:mini_perpus_up/pages/admin/AdminBase.dart';
-import 'package:mini_perpus_up/routes/AppRoute.dart';
+import 'package:aplikasi_perpustakaan/models/AuthenticationModel.dart';
+import 'package:aplikasi_perpustakaan/pages/admin/AdminBase.dart';
+import 'package:aplikasi_perpustakaan/routes/AppRoute.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});

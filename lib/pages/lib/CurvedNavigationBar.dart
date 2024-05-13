@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mini_perpus_up/pages/lib/NavCustomPointer.dart';
+import 'package:aplikasi_perpustakaan/pages/lib/NavCustomPointer.dart';
 
 typedef LetIndexPage = bool Function(int value);
 

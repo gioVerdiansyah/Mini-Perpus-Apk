@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mini_perpus_up/models/CustomerModel.dart';
-import 'package:mini_perpus_up/pages/auth/LoginPage.dart';
-import 'package:mini_perpus_up/pages/components/AppBarComponent.dart';
-import 'package:mini_perpus_up/routes/AppRoute.dart';
+import 'package:aplikasi_perpustakaan/models/CustomerModel.dart';
+import 'package:aplikasi_perpustakaan/pages/auth/LoginPage.dart';
+import 'package:aplikasi_perpustakaan/pages/components/AppBarComponent.dart';
+import 'package:aplikasi_perpustakaan/routes/AppRoute.dart';
 
 class UserCustomerPage extends StatefulWidget {
   UserCustomerPage({super.key});
