@@ -1,6 +1,6 @@
-# mini_perpus_up
+# aplikasi_perpustakaan
 
-A new Flutter project.
+Aplikasi Perpustakaan | Ujian Praktek
 
 ## Getting Started
 

@@ -119,7 +119,7 @@ class _AdminPelangganView extends State<AdminPelangganPage> {
                                     foregroundColor: MaterialStateProperty.all(Colors.white),
                                   ),
                                   child: const Text(
-                                    "Cetak data Pelanggan",
+                                    "Cetak Pelanggan",
                                   )),
                             ),
                           ],
