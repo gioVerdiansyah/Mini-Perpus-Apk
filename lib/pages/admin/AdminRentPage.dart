@@ -123,85 +123,93 @@ class _AdminSewaView extends State<AdminSewaPage> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text("Pelanggan: ${rent['customer']?['name']}"),
-                                                Text("Buku: ${rent['book']?['title'] ?? '-'}"),
-                                                Text("Jumlah: ${rent?['total'] ?? '-'}"),
-                                                Text("Tgl Sewa: ${rent?['rental_date'] ?? '-'}"),
-                                                Text("Tgl Pengembalian: ${rent?['return_date'] ?? '-'}"),
-                                                Text("Pajak: ${rent?['tax'] ?? '-'}"),
-                                              ],
-                                            ),
-                                          ],
+                                        Expanded(
+                                          flex: 2,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Flexible(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("Pelanggan: ${rent['customer']?['name']}"),
+                                                    Text("Buku: ${rent['book']?['title'] ?? '-'}"),
+                                                    Text("Jumlah: ${rent?['total'] ?? '-'}"),
+                                                    Text("Tgl Sewa: ${rent?['rental_date'] ?? '-'}"),
+                                                    Text("Tgl Pengembalian: ${rent?['return_date'] ?? '-'}"),
+                                                    Text("Pajak: ${rent?['tax'] ?? '-'}"),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(bottom: 10),
-                                              child: ElevatedButton(
+                                        Expanded(
+                                          flex: 1,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(bottom: 10),
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    launchUrl(Uri.parse("${Env.APP_URL}print/rent/${rent['id']}"));
+                                                  },
+                                                  child: const Text("Print"),
+                                                  style: ButtonStyle(
+                                                      shape: MaterialStateProperty.all(
+                                                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                                                      backgroundColor:
+                                                          MaterialStateProperty.all(const Color.fromRGBO(248, 255, 54, 0.6)),
+                                                      foregroundColor: MaterialStateProperty.all(Colors.white)),
+                                                ),
+                                              ),
+                                              ElevatedButton(
                                                 onPressed: () {
-                                                  launchUrl(Uri.parse("${Env.APP_URL}print/rent/${rent['id']}"));
+                                                  ArtSweetAlert.show(
+                                                      context: context,
+                                                      artDialogArgs: ArtDialogArgs(
+                                                          title: "Apakah Anda yakin?",
+                                                          text: "Untuk menghapus data sewa?}?",
+                                                          type: ArtSweetAlertType.warning,
+                                                          showCancelBtn: true,
+                                                          onConfirm: () async {
+                                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                                              content: Text("Processing "
+                                                                  "Data"),
+                                                              backgroundColor: Color.fromRGBO(143, 148, 251, 1),
+                                                            ));
+
+                                                            var response = await RentModel.deleteRent(rent['id']);
+                                                            if (response['meta']['success']) {
+                                                              ArtSweetAlert.show(
+                                                                  context: context,
+                                                                  artDialogArgs: ArtDialogArgs(
+                                                                      type: ArtSweetAlertType.success,
+                                                                      title: "Berhasil!",
+                                                                      text: response['meta']['message'],
+                                                                      onConfirm: () {
+                                                                        passingDownEvent(Uri.parse(data['path']));
+                                                                      }));
+                                                            } else {
+                                                              ArtSweetAlert.show(
+                                                                  context: context,
+                                                                  artDialogArgs: ArtDialogArgs(
+                                                                      type: ArtSweetAlertType.danger,
+                                                                      title: "Ups, Something wrong!",
+                                                                      text: response?['meta']?['message']));
+                                                            }
+                                                          }));
                                                 },
-                                                child: const Text("Print"),
+                                                child: const Text("Hapus"),
                                                 style: ButtonStyle(
                                                     shape: MaterialStateProperty.all(
                                                         RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
                                                     backgroundColor:
-                                                        MaterialStateProperty.all(const Color.fromRGBO(248, 255, 54, 0.6)),
+                                                        MaterialStateProperty.all(const Color.fromRGBO(255, 54, 54, 0.6)),
                                                     foregroundColor: MaterialStateProperty.all(Colors.white)),
-                                              ),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                ArtSweetAlert.show(
-                                                    context: context,
-                                                    artDialogArgs: ArtDialogArgs(
-                                                        title: "Apakah Anda yakin?",
-                                                        text: "Untuk menghapus data sewa?}?",
-                                                        type: ArtSweetAlertType.warning,
-                                                        showCancelBtn: true,
-                                                        onConfirm: () async {
-                                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                                            content: Text("Processing "
-                                                                "Data"),
-                                                            backgroundColor: Color.fromRGBO(143, 148, 251, 1),
-                                                          ));
-
-                                                          var response = await RentModel.deleteRent(rent['id']);
-                                                          if (response['meta']['success']) {
-                                                            ArtSweetAlert.show(
-                                                                context: context,
-                                                                artDialogArgs: ArtDialogArgs(
-                                                                    type: ArtSweetAlertType.success,
-                                                                    title: "Berhasil!",
-                                                                    text: response['meta']['message'],
-                                                                    onConfirm: () {
-                                                                      passingDownEvent(Uri.parse(data['path']));
-                                                                    }));
-                                                          } else {
-                                                            ArtSweetAlert.show(
-                                                                context: context,
-                                                                artDialogArgs: ArtDialogArgs(
-                                                                    type: ArtSweetAlertType.danger,
-                                                                    title: "Ups, Something wrong!",
-                                                                    text: response?['meta']?['message']));
-                                                          }
-                                                        }));
-                                              },
-                                              child: const Text("Hapus"),
-                                              style: ButtonStyle(
-                                                  shape: MaterialStateProperty.all(
-                                                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(const Color.fromRGBO(255, 54, 54, 0.6)),
-                                                  foregroundColor: MaterialStateProperty.all(Colors.white)),
-                                            )
-                                          ],
+                                              )
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),

@@ -152,88 +152,96 @@ class _AdminPelangganView extends State<AdminPelangganPage> {
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text("Nama: ${customer['name']}"),
-                                                    Text("Jenis Kelamin: ${customer['gender'] ?? '-'}"),
-                                                    Text("Alamat: ${customer['address'] ?? '-'}")
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                            Column(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(bottom: 10),
-                                                  child: ElevatedButton(
-                                                    onPressed: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) => CustomerEditPage(
-                                                                  customerID: customer['id'],
-                                                                  refreshState: passingDownEvent)));
-                                                    },
-                                                    child: const Text("Edit"),
-                                                    style: ButtonStyle(
-                                                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(5))),
-                                                        backgroundColor: MaterialStateProperty.all(
-                                                            const Color.fromRGBO(248, 255, 54, 0.6)),
-                                                        foregroundColor: MaterialStateProperty.all(Colors.white)),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  Flexible(
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text("Nama: ${customer['name']}"),
+                                                        Text("Jenis Kelamin: ${customer['gender'] ?? '-'}"),
+                                                        Text("Alamat: ${customer['address'] ?? '-'}")
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    ArtSweetAlert.show(
-                                                        context: context,
-                                                        artDialogArgs: ArtDialogArgs(
-                                                            title: "Apakah Anda yakin?",
-                                                            text: "Untuk menghapus pelanggan ${customer['name']}?",
-                                                            type: ArtSweetAlertType.warning,
-                                                            showCancelBtn: true,
-                                                            onConfirm: () async {
-                                                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                                                content: Text("Processing "
-                                                                    "Data"),
-                                                                backgroundColor: Color.fromRGBO(143, 148, 251, 1),
-                                                              ));
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(bottom: 10),
+                                                    child: ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => CustomerEditPage(
+                                                                    customerID: customer['id'],
+                                                                    refreshState: passingDownEvent)));
+                                                      },
+                                                      child: const Text("Edit"),
+                                                      style: ButtonStyle(
+                                                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(5))),
+                                                          backgroundColor: MaterialStateProperty.all(
+                                                              const Color.fromRGBO(248, 255, 54, 0.6)),
+                                                          foregroundColor: MaterialStateProperty.all(Colors.white)),
+                                                    ),
+                                                  ),
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      ArtSweetAlert.show(
+                                                          context: context,
+                                                          artDialogArgs: ArtDialogArgs(
+                                                              title: "Apakah Anda yakin?",
+                                                              text: "Untuk menghapus pelanggan ${customer['name']}?",
+                                                              type: ArtSweetAlertType.warning,
+                                                              showCancelBtn: true,
+                                                              onConfirm: () async {
+                                                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                                                  content: Text("Processing "
+                                                                      "Data"),
+                                                                  backgroundColor: Color.fromRGBO(143, 148, 251, 1),
+                                                                ));
 
-                                                              var response =
-                                                                  await CustomerModel.deleteCustomer(customer['id']);
-                                                              if (response['meta']['success']) {
-                                                                ArtSweetAlert.show(
-                                                                    context: context,
-                                                                    artDialogArgs: ArtDialogArgs(
-                                                                        type: ArtSweetAlertType.success,
-                                                                        title: "Berhasil!",
-                                                                        text: response['meta']['message'],
-                                                                        onConfirm: () {
-                                                                          passingDownEvent(Uri.parse(data['path']));
-                                                                        }));
-                                                              } else {
-                                                                ArtSweetAlert.show(
-                                                                    context: context,
-                                                                    artDialogArgs: ArtDialogArgs(
-                                                                        type: ArtSweetAlertType.danger,
-                                                                        title: "Ups, Something wrong!",
-                                                                        text: response['meta']['message']));
-                                                              }
-                                                            }));
-                                                  },
-                                                  style: ButtonStyle(
-                                                      shape: MaterialStateProperty.all(
-                                                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                                                      backgroundColor: MaterialStateProperty.all(
-                                                          const Color.fromRGBO(255, 54, 54, 0.6)),
-                                                      foregroundColor: MaterialStateProperty.all(Colors.white)),
-                                                  child: const Text("Hapus"),
-                                                )
-                                              ],
+                                                                var response =
+                                                                    await CustomerModel.deleteCustomer(customer['id']);
+                                                                if (response['meta']['success']) {
+                                                                  ArtSweetAlert.show(
+                                                                      context: context,
+                                                                      artDialogArgs: ArtDialogArgs(
+                                                                          type: ArtSweetAlertType.success,
+                                                                          title: "Berhasil!",
+                                                                          text: response['meta']['message'],
+                                                                          onConfirm: () {
+                                                                            passingDownEvent(Uri.parse(data['path']));
+                                                                          }));
+                                                                } else {
+                                                                  ArtSweetAlert.show(
+                                                                      context: context,
+                                                                      artDialogArgs: ArtDialogArgs(
+                                                                          type: ArtSweetAlertType.danger,
+                                                                          title: "Ups, Something wrong!",
+                                                                          text: response['meta']['message']));
+                                                                }
+                                                              }));
+                                                    },
+                                                    style: ButtonStyle(
+                                                        shape: MaterialStateProperty.all(
+                                                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                                                        backgroundColor: MaterialStateProperty.all(
+                                                            const Color.fromRGBO(255, 54, 54, 0.6)),
+                                                        foregroundColor: MaterialStateProperty.all(Colors.white)),
+                                                    child: const Text("Hapus"),
+                                                  )
+                                                ],
+                                              ),
                                             )
                                           ],
                                         ),

@@ -147,84 +147,92 @@ class _AdminBukuView extends State<AdminBukuPage> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text("Judul: ${book['title']}"),
-                                                Text("Category: ${book['category'] ?? '-'}"),
-                                                Text("Penerbit: ${book['publisher'] ?? '-'}"),
-                                                Text("Dibuat: ${DateFormat("dd/MM/yyyy").format(DateTime.parse(book['created_at']))}")
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(bottom: 10),
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                                      BookEditPage(bookID: book['id'], refreshState: passingDownEvent)));
-                                                },
-                                                child: const Text("Edit"),
-                                                style: ButtonStyle(
-                                                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(5))),
-                                                    backgroundColor: MaterialStateProperty.all(
-                                                        const Color.fromRGBO(248, 255, 54, 0.6)),
-                                                    foregroundColor: MaterialStateProperty.all(Colors.white)),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Flexible(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("Judul: ${book['title']}"),
+                                                    Text("Category: ${book['category'] ?? '-'}"),
+                                                    Text("Penerbit: ${book['publisher'] ?? '-'}"),
+                                                    Text("Dibuat: ${DateFormat("dd/MM/yyyy").format(DateTime.parse(book['created_at']))}")
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                ArtSweetAlert.show(
-                                                    context: context,
-                                                    artDialogArgs: ArtDialogArgs(
-                                                        title: "Apakah Anda yakin?",
-                                                        text: "Untuk menghapus buku ${book['title']}?",
-                                                        type: ArtSweetAlertType.warning,
-                                                        showCancelBtn: true,
-                                                        onConfirm: () async {
-                                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                                            content: Text("Processing "
-                                                                "Data"),
-                                                            backgroundColor: Color.fromRGBO(143, 148, 251, 1),
-                                                          ));
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(bottom: 10),
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                                        BookEditPage(bookID: book['id'], refreshState: passingDownEvent)));
+                                                  },
+                                                  child: const Text("Edit"),
+                                                  style: ButtonStyle(
+                                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(5))),
+                                                      backgroundColor: MaterialStateProperty.all(
+                                                          const Color.fromRGBO(248, 255, 54, 0.6)),
+                                                      foregroundColor: MaterialStateProperty.all(Colors.white)),
+                                                ),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  ArtSweetAlert.show(
+                                                      context: context,
+                                                      artDialogArgs: ArtDialogArgs(
+                                                          title: "Apakah Anda yakin?",
+                                                          text: "Untuk menghapus buku ${book['title']}?",
+                                                          type: ArtSweetAlertType.warning,
+                                                          showCancelBtn: true,
+                                                          onConfirm: () async {
+                                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                                              content: Text("Processing "
+                                                                  "Data"),
+                                                              backgroundColor: Color.fromRGBO(143, 148, 251, 1),
+                                                            ));
 
-                                                          var response = await BookModel.deleteBook(book['id']);
-                                                          if (response['meta']['success']) {
-                                                            ArtSweetAlert.show(
-                                                                context: context,
-                                                                artDialogArgs: ArtDialogArgs(
-                                                                    type: ArtSweetAlertType.success,
-                                                                    title: "Berhasil!",
-                                                                    text: response['meta']['message'],
-                                                                    onConfirm: () {
-                                                                      passingDownEvent(Uri.parse(data['path']));
-                                                                    }));
-                                                          } else {
-                                                            ArtSweetAlert.show(
-                                                                context: context,
-                                                                artDialogArgs: ArtDialogArgs(
-                                                                    type: ArtSweetAlertType.danger,
-                                                                    title: "Ups, Something wrong!",
-                                                                    text: response['meta']['message']));
-                                                          }
-                                                        }));
-                                              },
-                                              child: const Text("Hapus"),
-                                              style: ButtonStyle(
-                                                  shape: MaterialStateProperty.all(
-                                                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                                                  backgroundColor: MaterialStateProperty.all(
-                                                      const Color.fromRGBO(255, 54, 54, 0.6)),
-                                                  foregroundColor: MaterialStateProperty.all(Colors.white)),
-                                            )
-                                          ],
+                                                            var response = await BookModel.deleteBook(book['id']);
+                                                            if (response['meta']['success']) {
+                                                              ArtSweetAlert.show(
+                                                                  context: context,
+                                                                  artDialogArgs: ArtDialogArgs(
+                                                                      type: ArtSweetAlertType.success,
+                                                                      title: "Berhasil!",
+                                                                      text: response['meta']['message'],
+                                                                      onConfirm: () {
+                                                                        passingDownEvent(Uri.parse(data['path']));
+                                                                      }));
+                                                            } else {
+                                                              ArtSweetAlert.show(
+                                                                  context: context,
+                                                                  artDialogArgs: ArtDialogArgs(
+                                                                      type: ArtSweetAlertType.danger,
+                                                                      title: "Ups, Something wrong!",
+                                                                      text: response['meta']['message']));
+                                                            }
+                                                          }));
+                                                },
+                                                child: const Text("Hapus"),
+                                                style: ButtonStyle(
+                                                    shape: MaterialStateProperty.all(
+                                                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                                                    backgroundColor: MaterialStateProperty.all(
+                                                        const Color.fromRGBO(255, 54, 54, 0.6)),
+                                                    foregroundColor: MaterialStateProperty.all(Colors.white)),
+                                              )
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),
